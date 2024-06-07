@@ -1,34 +1,30 @@
 #include "binary_trees.h"
 
 /**
- * count_left_nodes - counts the number of nodes in the left branch.
+ * binary_tree_height - calculate the height of a binary tree.
  *
- * @root: the root of the binary tree.
+ * @tree: root of the tree.
  *
- * Return: number of nodes in the left branch(int).
+ * Return: height of the tree.
  */
-int count_left_nodes(const binary_tree_t *root)
+
+size_t binary_tree_height(const binary_tree_t *tree)
 {
-	if (!root)
+	size_t left, right;
+
+	if (!tree)
+		return (-1);
+
+	if (!(tree->left) && !(tree->right))
 		return (0);
 
-	return (1 + count_left_nodes(root->left));
-}
+	left = binary_tree_height(tree->left) + 1;
+	right = binary_tree_height(tree->right) + 1;
 
-
-/**
- * count_right_nodes - counts the number of nodes in the right branch.
- *
- * @root: the root of the binary tree.
- *
- * Return: number of nodes in the right branch(int).
- */
-int count_right_nodes(const binary_tree_t *root)
-{
-	if (!root)
-		return (0);
-
-	return (1 + count_right_nodes(root->right));
+	if (left > right)
+		return (left);
+	else
+		return (right);
 }
 
 
@@ -45,6 +41,5 @@ int binary_tree_balance(const binary_tree_t *tree)
 	if (!tree)
 		return (0);
 
-	return (count_left_nodes(tree->left) - count_right_nodes(tree->right));
-
+	return (binary_tree_height(tree->left) - binary_tree_height(tree->right));
 }
